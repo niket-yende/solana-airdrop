@@ -3,7 +3,8 @@ const cron = require("node-cron");
 const express = require("express"); 
 const { Connection, PublicKey, LAMPORTS_PER_SOL } = require("@solana/web3.js");
 
-const master_address = "9b9wKu2EFnk3ZHHhDaudfxpqtDM2SM3uJL54dMpmXTYw";
+const WALLET_ADDRESS = '9b9wKu2EFnk3ZHHhDaudfxpqtDM2SM3uJL54dMpmXTYw'; //👈 Replace with your wallet address
+const AIRDROP_AMOUNT = 1 * LAMPORTS_PER_SOL; // 1 SOL 
   
 app = express(); // Initializing app 
   
@@ -15,12 +16,20 @@ cron.schedule("*/30 * * * *", function() {
 
 airdrop = async () => {
     try {
-        console.log(`Airdropping sol to ${master_address}`);
+        console.log(`Airdropping sol to ${WALLET_ADDRESS}`);
         const connection = new Connection("https://api.devnet.solana.com", "confirmed");
-        const myAddress = new PublicKey(master_address);
-        const signature = await connection.requestAirdrop(myAddress, LAMPORTS_PER_SOL);
-        await connection.confirmTransaction(signature);
-        // Log results
+        const myAddress = new PublicKey(WALLET_ADDRESS);
+        // 1 - Request Airdrop
+        const signature = await connection.requestAirdrop(myAddress, AIRDROP_AMOUNT);
+        // 2 - Fetch the latest blockhash
+        const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+        // 3 - Confirm transaction success
+        await connection.confirmTransaction({
+            blockhash,
+            lastValidBlockHeight,
+            signature
+        },'finalized');
+        // 4 - Log results
         console.log(`Tx Complete: https://explorer.solana.com/tx/${signature}?cluster=devnet`);
         console.log('Airdrop complete');
     } catch(error) {
