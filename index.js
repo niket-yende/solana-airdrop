@@ -20,6 +20,8 @@ airdrop = async () => {
         const myAddress = new PublicKey(master_address);
         const signature = await connection.requestAirdrop(myAddress, LAMPORTS_PER_SOL);
         await connection.confirmTransaction(signature);
+        // 4 - Log results
+        console.log(`Tx Complete: https://explorer.solana.com/tx/${signature}?cluster=devnet`);
         console.log('Airdrop complete');
     } catch(error) {
         console.error('Error caught during airdrop ', error);
