@@ -8,8 +8,8 @@ const AIRDROP_AMOUNT = 1 * LAMPORTS_PER_SOL; // 1 SOL
   
 app = express(); // Initializing app 
   
-// Creating a cron job which runs on every 30 minutes
-cron.schedule("*/30 * * * *", function() { 
+// Creating a cron job which runs at minute 30 past every hour 
+cron.schedule("30 */1 * * *", function() { 
     console.log("running a task every 30 min");
     airdrop(); 
 }); 
