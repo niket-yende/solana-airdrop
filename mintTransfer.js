@@ -1,4 +1,4 @@
-const { clusterApiUrl, Connection, Keypair, LAMPORTS_PER_SOL, PublicKey } = require("@solana/web3.js");
+const { clusterApiUrl, Connection, Keypair, LAMPORTS_PER_SOL } = require("@solana/web3.js");
 const { createMint, getOrCreateAssociatedTokenAccount, mintTo, transfer } = require('@solana/spl-token');
 
 // const SECRET_KEY_ARRAY = []; // contains the private key of wallet account
