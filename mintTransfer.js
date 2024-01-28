@@ -1,5 +1,5 @@
 const { clusterApiUrl, Connection, Keypair, LAMPORTS_PER_SOL } = require("@solana/web3.js");
-const { createMint, getOrCreateAssociatedTokenAccount, mintTo, transfer } = require('@solana/spl-token');
+const { createMint, getOrCreateAssociatedTokenAccount, mintTo, transfer, burnChecked, getAccount } = require('@solana/spl-token');
 
 // const SECRET_KEY_ARRAY = []; // contains the private key of wallet account
 // const DEMO_WALLET_SECRET_KEY = new Uint8Array(SECRET_KEY_ARRAY);
@@ -13,8 +13,7 @@ const { createMint, getOrCreateAssociatedTokenAccount, mintTo, transfer } = requ
 
     // console.log(`Master address: ${WALLET_ADDRESS}`);
     // const masterAddress = Keypair.fromSecretKey(DEMO_WALLET_SECRET_KEY);
-    // const masterAddress = new PublicKey(WALLET_ADDRESS);
-
+    
     // Generate a new wallet keypair and airdrop SOL
     const masterAddress = Keypair.generate();
     console.log(`masterAddress: ${masterAddress.publicKey.toBase58()}`);
@@ -89,4 +88,20 @@ const { createMint, getOrCreateAssociatedTokenAccount, mintTo, transfer } = requ
         50
     );
     console.log(`Transfer tx Complete: https://explorer.solana.com/tx/${signature}?cluster=devnet`);
+
+    const burnAmount = BigInt(2);
+    signature = await burnChecked(
+        connection,
+        masterAddress, // payer
+        toTokenAccount.address, // Account to burn tokens from
+        mint, // Mint for the account
+        toWallet, // Account owner
+        burnAmount, // Amount to burn
+        9
+    );
+    console.log(`Burn tx Complete: https://explorer.solana.com/tx/${signature}?cluster=devnet`);
+    
+    const accountInfo = await getAccount(connection, toTokenAccount.address);
+    // expect(accountInfo.amount).to.eql(amount - burnAmount);
+    console.log(`AccountInfo amount: ${accountInfo.amount}`);
 })();
