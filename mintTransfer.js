@@ -89,6 +89,9 @@ const { createMint, getOrCreateAssociatedTokenAccount, mintTo, transfer, burnChe
     );
     console.log(`Transfer tx Complete: https://explorer.solana.com/tx/${signature}?cluster=devnet`);
 
+    console.log(`fromTokenAccount.address: ${fromTokenAccount.address}`);
+    console.log(`toTokenAccount.address: ${toTokenAccount.address}`);
+
     const burnAmount = BigInt(2);
     signature = await burnChecked(
         connection,
