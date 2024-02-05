@@ -11,7 +11,7 @@ const { createMint, getOrCreateAssociatedTokenAccount, mintTo, transfer, burnChe
     // Connect to cluster
     const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 
-    // console.log(`Master address: ${WALLET_ADDRESS}`);
+    // console.log(`Master address: ${DEMO_WALLET_SECRET_KEY}`);
     // const masterAddress = Keypair.fromSecretKey(DEMO_WALLET_SECRET_KEY);
     
     // Generate a new wallet keypair and airdrop SOL
@@ -107,4 +107,12 @@ const { createMint, getOrCreateAssociatedTokenAccount, mintTo, transfer, burnChe
     const accountInfo = await getAccount(connection, toTokenAccount.address);
     // expect(accountInfo.amount).to.eql(amount - burnAmount);
     console.log(`AccountInfo amount: ${accountInfo.amount}`);
+
+    // Check user's balance
+    const balance = await connection.getBalance(masterAddress.publicKey);
+    console.log(`Master address balance: ${balance / LAMPORTS_PER_SOL} SOL`);
+
+    const info = await connection.getTokenAccountBalance(fromTokenAccount.address);
+    if (!info.value.uiAmount) throw new Error('No balance found');
+    console.log('Balance (using Solana-Web3.js): ', info.value.uiAmount);
 })();
