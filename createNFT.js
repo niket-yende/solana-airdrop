@@ -2,6 +2,7 @@ const { Connection, clusterApiUrl, Keypair, LAMPORTS_PER_SOL, PublicKey } = requ
 const dotenv = require("dotenv");
 const fs = require("fs");
 const { Metaplex, keypairIdentity, bundlrStorage, toMetaplexFile, mockStorage } = require("@metaplex-foundation/js");
+const { nftStorage } = require("@metaplex-foundation/js-plugin-nft-storage");
 dotenv.config();
 
 // example data for a new NFT
@@ -12,6 +13,14 @@ const nftData = {
   sellerFeeBasisPoints: 0,
   imageFile: "solana.png"
 }
+
+const carNftData = {
+    name: "CarNFT",
+    symbol: "SOLCAR",
+    description: "Sol Car NFT",
+    sellerFeeBasisPoints: 0,
+    imageFile: "car.jpg"
+  }
 
 // example data for updating an existing NFT
 // const updateNftData = {
@@ -48,18 +57,19 @@ async function main() {
 
     const metaplex = Metaplex.make(connection)
     .use(keypairIdentity(user))
-    .use(mockStorage());
+    // .use(mockStorage());
+    .use(nftStorage({ token: process.env.NFT_STORAGE_TOKEN }));
 
     // upload NFT data and get the URI for the metadata
-    const uri = await uploadMetadata(metaplex, nftData);
+    const uri = await uploadMetadata(metaplex, carNftData);
 
     // create an NFT using the helper function and the URI from the metadata
     const nft = await metaplex.nfts().create(
         {
             uri: uri,
-            name: nftData.name,
-            sellerFeeBasisPoints: nftData.sellerFeeBasisPoints,
-            symbol: nftData.symbol,
+            name: carNftData.name,
+            sellerFeeBasisPoints: carNftData.sellerFeeBasisPoints,
+            symbol: carNftData.symbol,
         },
         { commitment: "finalized" },
     );
@@ -78,6 +88,7 @@ async function uploadMetadata(metaplex, nftData) {
   
     // buffer to metaplex file
     const file = toMetaplexFile(buffer, nftData.imageFile);
+    console.log('File name: ', file.fileName);
   
     // upload image and get image uri
     const imageUri = await metaplex.storage().upload(file);

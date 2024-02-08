@@ -24,6 +24,7 @@
   "homepage": "https://github.com/niket-yende/solana-airdrop#readme",
   "dependencies": {
     "@metaplex-foundation/js": "^0.20.1",
+    "@metaplex-foundation/js-plugin-nft-storage": "^0.20.0",
     "@solana/spl-token": "^0.3.11",
     "@solana/web3.js": "^1.89.1",
     "dotenv": "^16.4.1",
