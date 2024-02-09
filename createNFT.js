@@ -1,7 +1,7 @@
 const { Connection, clusterApiUrl, Keypair, LAMPORTS_PER_SOL, PublicKey } = require("@solana/web3.js");
 const dotenv = require("dotenv");
 const fs = require("fs");
-const { Metaplex, keypairIdentity, bundlrStorage, toMetaplexFile, mockStorage } = require("@metaplex-foundation/js");
+const { Metaplex, keypairIdentity, bundlrStorage, toMetaplexFile, mockStorage, token } = require("@metaplex-foundation/js");
 const { nftStorage } = require("@metaplex-foundation/js-plugin-nft-storage");
 dotenv.config();
 
@@ -80,6 +80,22 @@ async function main() {
     console.log(`NFT response blockhash: ${nft.response.blockhash}`);
     console.log(`NFT response signature: ${nft.response.signature}`);    
     console.log(`Token Mint: https://explorer.solana.com/address/${nft.mintAddress}?cluster=devnet`);
+
+    const toWallet = Keypair.generate();
+    console.log(`toWallet: ${toWallet.publicKey.toBase58()}`);
+
+    // const transferNft = await metaplex.nfts().transfer(
+    //   {
+    //     nftOrSft: nft,
+    //     authority: user,
+    //     fromOwner: user.publicKey,
+    //     toOwner: toWallet.publicKey,
+    //     amount: token(1),
+    //   },
+    //   { commitment: "finalized" },
+    // );
+
+    // console.log(transferNft?.response?.blockhash);
 }
 
 async function uploadMetadata(metaplex, nftData) {
