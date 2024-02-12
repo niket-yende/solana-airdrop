@@ -12,7 +12,7 @@ dotenv.config();
  */
 async function main() {
     // Use the RPC endpoint of your choice.
-    const umi = createUmi('https://api.testnet.solana.com')
+    const umi = createUmi('https://api.devnet.solana.com')
     // .use(nftStorageUploader({token: nftStorageToken}))
     .use(mplTokenMetadata());
 
