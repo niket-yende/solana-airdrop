@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const { generateSigner, signerIdentity, createSignerFromKeypair }  = require("@metaplex-foundation/umi");
-const { createNft, mplTokenMetadata, fetchDigitalAsset } = require("@metaplex-foundation/mpl-token-metadata");
+const { createNft, mplTokenMetadata } = require("@metaplex-foundation/mpl-token-metadata");
 const { createUmi } = require('@metaplex-foundation/umi-bundle-defaults');
 dotenv.config();
 
@@ -34,10 +34,8 @@ async function main() {
         }
     ).sendAndConfirm(umi);
 
-    console.log('step2');
-    
-    const asset = await fetchDigitalAsset(umi, mint.publicKey);
-    console.log(`asset: ${asset?.metadata?.name}`);
+    console.log('step2 complete');
+    console.log(nft);    
 }
 
 main()
