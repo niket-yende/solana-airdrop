@@ -55,6 +55,7 @@ async function main() {
     //     }),
     // );
 
+    // metaplex set up
     const metaplex = Metaplex.make(connection)
     .use(keypairIdentity(user))
     // .use(mockStorage());
