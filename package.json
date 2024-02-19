@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/niket-yende/solana-airdrop#readme",
   "dependencies": {
+    "@metaplex-foundation/digital-asset-standard-api": "^1.0.3",
     "@metaplex-foundation/js": "^0.20.1",
     "@metaplex-foundation/js-plugin-nft-storage": "^0.20.0",
     "@metaplex-foundation/mpl-token-metadata": "^3.2.0",
