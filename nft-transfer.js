@@ -12,7 +12,7 @@ const nftData = {
   name: "I30NFT",
   symbol: "I30",
   description: "Hyundai i30 performance NFT",
-  sellerFeeBasisPoints: 0,
+  sellerFeeBasisPoints: 7.99,
   imageFile: "hyundai.jpg"
 }
 
@@ -57,7 +57,7 @@ async function main() {
             mint: mint,
             name: nftData.name,
             uri: uri,
-            sellerFeeBasisPoints: nftData.sellerFeeBasisPoints,
+            sellerFeeBasisPoints: percentAmount(nftData.sellerFeeBasisPoints, 2),
             symbol: nftData.symbol,
         }
     ).getInstructions();

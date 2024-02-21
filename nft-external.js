@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const { createNft, mplTokenMetadata, transferV1, TokenStandard } = require("@metaplex-foundation/mpl-token-metadata");
-const { Connection, clusterApiUrl, Keypair} = require("@solana/web3.js");
+const { Connection, clusterApiUrl, Keypair, VersionedTransaction} = require("@solana/web3.js");
 const { createNoopSigner, signerIdentity } = require('@metaplex-foundation/umi');
 const { createUmi } = require('@metaplex-foundation/umi-bundle-defaults');
 const { toWeb3JsTransaction } = require("@metaplex-foundation/umi-web3js-adapters");
@@ -69,6 +69,10 @@ async function main() {
     });
 
     const transaction = toWeb3JsTransaction(umiTransaction);
+    
+    if(transaction instanceof VersionedTransaction) {
+      console.log('Versioned tx found');
+    }
 
     console.log('Step3');
 
