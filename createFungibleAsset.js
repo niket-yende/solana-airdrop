@@ -1,5 +1,5 @@
 const dotenv = require("dotenv");
-const { mplTokenMetadata, createFungibleAsset } = require("@metaplex-foundation/mpl-token-metadata");
+const { mplTokenMetadata, createFungibleAsset, mintV1, TokenStandard } = require("@metaplex-foundation/mpl-token-metadata");
 const { Connection, clusterApiUrl, Keypair } = require("@solana/web3.js");
 const { createNoopSigner, signerIdentity, percentAmount } = require('@metaplex-foundation/umi');
 const { createUmi } = require('@metaplex-foundation/umi-bundle-defaults');
@@ -63,13 +63,23 @@ async function main() {
         }
     ).getInstructions();
 
+    const mintSFTIx = mintV1(umi, 
+      {
+        mint: mint,
+        authority: createNoopSigner(sourceWallet.publicKey),
+        amount: 10000000,
+        tokenOwner: sourceWallet.publicKey,
+        tokenStandard: TokenStandard.FungibleAsset,
+      }
+    ).getInstructions();
+
     console.log('Step2');
 
     let latestBlockhash = await umi.rpc.getLatestBlockhash();
     let umiTransaction = umi.transactions.create({
       version: 0,
       payer: payer.publicKey,
-      instructions: builderIx,
+      instructions: [...builderIx, ...mintSFTIx],
       blockhash: latestBlockhash.blockhash,
     });
 
