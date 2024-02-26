@@ -3,7 +3,7 @@ const { createUmi } = require('@metaplex-foundation/umi-bundle-defaults');
 const { dasApi } = require('@metaplex-foundation/digital-asset-standard-api');
 
 const umi = createUmi('https://api.devnet.solana.com').use(dasApi());
-const assetId = publicKey('GoPo9M3L8JjbsefRrNu7JzrauCWazRJPGN17FzFsYyF7');
+const assetId = publicKey('9d2Wkhb4f8yq5Ps4rFUL3KQVb2FgJpJ849j9SvewHSEW');
 
 async function main() {
     const asset = await umi.rpc.getAsset(assetId);
